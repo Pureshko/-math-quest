@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('member_name_2');
             $table->string('member_name_3');
             $table->string('member_name_4');
+            $table->unsignedBigInteger("uni_id");
+            $table->foreign('uni_id')->references("id")->on('universities');
             $table->string('email')->unique();
             $table->string('password');
             $table->rememberToken();

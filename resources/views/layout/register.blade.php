@@ -19,31 +19,41 @@
                 @csrf
                 <div class="mb-3 form-group">
                     <label for="exampleInputEmail1" class="form-label">Team Name</label>
-                    <input type="text" name="team_name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <input type="text" name="team_name" class="form-control" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3 form-group">
+                    <label for="exampleInputEmail1" class="form-label">University</label>
+                    <br>
+                    <select name="uni_id">
+                        <option value="1" selected>Nazarbayev University</option>
+                        <option value="2">AITU</option>
+                        <option value="3">SDU</option>
+                        <option value="4">KBTU</option>
+                    </select>
                 </div>
                 <div class="mb-3 form-group">
                     <label for="exampleInputEmail1" class="form-label">Team member number #1</label>
-                    <input type="text" name="member_name_1" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <input type="text" name="member_name_1" class="form-control" aria-describedby="emailHelp">
                 </div>
                 <div class="mb-3 form-group">
                     <label for="exampleInputEmail1" class="form-label">Team member number #2</label>
-                    <input type="text" name="member_name_2" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <input type="text" name="member_name_2" class="form-control" aria-describedby="emailHelp">
                 </div>
                 <div class="mb-3 form-group">
                     <label for="exampleInputEmail1" class="form-label">Team member number #3</label>
-                    <input type="text" name="member_name_3" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <input type="text" name="member_name_3" class="form-control" aria-describedby="emailHelp">
                 </div>
                 <div class="mb-3 form-group">
                     <label for="exampleInputEmail1" class="form-label">Team member number #4</label>
-                    <input type="text" name="member_name_4" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <input type="text" name="member_name_4" class="form-control" aria-describedby="emailHelp">
                 </div>
                 <div class="mb-3 form-group">
                     <label for="exampleInputEmail1" class="form-label">Email address</label>
-                    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <input type="email" name="email" class="form-control" aria-describedby="emailHelp">
                 </div>
                 <div class="mb-3 form-group">
                     <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+                    <input type="password" name="password" class="form-control">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

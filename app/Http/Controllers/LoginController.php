@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Settings;
 use Illuminate\Support\Facades\Validator;
+use PDO;
 
 class LoginController extends Controller
 {
@@ -16,19 +17,21 @@ class LoginController extends Controller
         return view('layout.login');
     }
     public function login(Request $request){
-        $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
         // check if user is authenticated
-        if(Auth::attempt($request->only('email', 'password'))){
+        if(Auth::attempt($credentials)){
+            $request->session()->regenerate();
+
             return redirect()->route('main-page');
         }
         return back()->with('error', 'Invalid login credentials');
     }
     public function logout(){
         Auth::logout();
-        return redirect()->route('layout.login');
+        return redirect()->route('login.page');
     }
     public function indexRegister(){
         $registration_end = Settings::where('key', 'registration_end')->first();
@@ -48,6 +51,7 @@ class LoginController extends Controller
             'member_name_2' => 'required|string|max:255',
             'member_name_3' => 'required|string|max:255',
             'member_name_4' => 'required|string|max:255',
+            'uni_id' => 'required|exists:universities,id',
             'email' => 'required|email',
             'password' => 'required'
         ]);
@@ -65,6 +69,7 @@ class LoginController extends Controller
             'member_name_2' => $request->member_name_2,
             'member_name_3' => $request->member_name_3,
             'member_name_4' => $request->member_name_4,
+            'uni_id' => $request->uni_id,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);

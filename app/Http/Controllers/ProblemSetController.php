@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Problems;
-use App\Models\SolvedProblems;
+use App\Models\Submissions;
 use Illuminate\Support\Facades\Auth;
 //use DB class
 use Illuminate\Support\Facades\DB;
@@ -21,58 +21,48 @@ class ProblemSetController extends Controller
             'title',
             DB::raw("
                 IF(
-                    (SELECT COUNT(*) FROM solved_problems WHERE problem_id = problems.id AND user_id = ".$user_id." AND correct = 1) > 0,
+                    (SELECT COUNT(*) FROM submissions WHERE problem_id = problems.id AND user_id = ".$user_id." AND correct = 1) > 0,
                     1,
                     0
                 ) as solved
             ")
         )
             ->get();
-        return view('layout.problemset', [
-            'problems' => $problems
+        $submissions = Submissions::where('user_id', $user_id)
+            ->join('problems', 'problems.id', '=', 'submissions.problem_id')
+            ->orderBy('created_at', 'desc')
+            ->select(
+                'submissions.id',
+                'problems.title',
+                'submissions.correct',
+                'submissions.score',
+            )
+            ->get();
+        return view('problems.problemset', [
+            'problems' => $problems,
+            'submissions' => $submissions
         ]);
     }
     public function problem(Request $request, $id){
-        return view('problems.'.$id);
-    }
-    public function getSubmissionAttemps(Request $request){
-        $request->validate([
-            "problem_id" => "required|exists:problems,id"
-        ]);
-        $user_id = Auth::id();
-        $problem_id = $request->problem_id;
-        $attempts = SolvedProblems::select(
-                'id',
-                'score',
-                'correct',
-                'created_at'
-            )
-            ->where('user_id', $user_id)
-            ->where('problem_id', $problem_id)
+        $problem = Problems::find($id);
+        $submissions = Submissions::where('problem_id', $id)
+            ->where('user_id', Auth::id())
+            ->join('problems', 'problems.id', '=', 'submissions.problem_id')
             ->orderBy('created_at', 'desc')
+            ->select(
+                'submissions.id',
+                'problems.title',
+                'submissions.correct',
+                'submissions.score',
+            )
             ->get();
-        return response()->json([
-            'attempts' => $attempts
+        $problem_choices = Problems::select('id','title')->get();
+        return view('problems.'.$id, [
+            'problem' => $problem,
+            'submissions' => $submissions,
+            'problem_choices' => $problem_choices
         ]);
     }
-    public function submitAnswer(Request $request){
-        $request->validate([
-            "problem_id" => "required|exists:problems,id",
-            'answer' => 'required|string'
-        ]);
-        $user_id = Auth::id();
-        $problem = Problems::find($request->problem_id);
-        $correct = 0;
-        if(Hash::check($request->answer, $problem->answer)){
-            $correct = 1;
-        }
-        SolvedProblems::create([
-            'user_id' => $user_id,
-            'problem_id' => $request->problem_id,
-            'score' => $problem->weight,
-            'correct' => $correct
-        ]);
-        return redirect()->route('problemset');
-    }
+    
 
 }

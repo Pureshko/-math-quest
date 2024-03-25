@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProblemSetController;
 use App\Http\Controllers\ProblemController;
+use App\Http\Controllers\LeaderboardController;
+use App\Http\Controllers\SubmissionController;
+use App\Http\Controllers\TeamsController;
+use App\Http\Controllers\SubmissionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,11 +27,15 @@ Route::get('/register', [LoginController::class, 'indexRegister'])->name('regist
 Route::post('/register', [LoginController::class, "register"])->name('register');
 Route::middleware("auth")->group(function(){
     Route::get("/", function(){
-        return view('main-page');
+        return view('main-page')->with('page', 'main-page');
     })->name("main-page");
-    Route::get("/problemset", "ProblemSetController@index")->name("problemset");
+    Route::get("/problemset", [ProblemSetController::class, 'index'])->name("problemset");
+    Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('leaderboard');
     Route::prefix('problem')->group(function(){
-        Route::get("/{id}", "ProblemSetController@problem")->name("problem");
-        Route::post("/submit", "ProblemSetController@submitAnswer")->name("problem.submit");
-    }); 
+        Route::get("/{id}", [ProblemSetController::class, 'problem'])->name("problem");
+        Route::post("/submit", [SubmissionController::class, 'submitAnswer'])->name("problem.submit");
+    });
+    Route::prefix("/submissions")->group(function(){
+        Route::get('/',[SubmissionController::class, 'index'])->name('submissions');
+    });
 });

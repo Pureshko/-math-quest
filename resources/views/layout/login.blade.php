@@ -8,6 +8,11 @@
         <div class="container h-100 d-flex align-items-center justify-content-center">
             <form action="/login" method="POST" class="border rounded border-dark p-3" style="width:450px;background-color: #ffffff">
                 @csrf
+                @if (session('error'))
+                    <div class="alert alert-danger" role="alert">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <div class="mb-3 form-group">
                     <label for="exampleInputEmail1" class="form-label">Email address</label>
                     <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
