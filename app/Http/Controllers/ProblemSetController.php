@@ -25,7 +25,8 @@ class ProblemSetController extends Controller
                     1,
                     0
                 ) as solved
-            ")
+            "),
+            "weight"
         )
             ->get();
         $submissions = Submissions::where('user_id', $user_id)
@@ -60,7 +61,7 @@ class ProblemSetController extends Controller
         return view('problems.'.$id, [
             'problem' => $problem,
             'submissions' => $submissions,
-            'problem_choices' => $problem_choices
+            'problems' => $problem_choices
         ]);
     }
     

@@ -2,6 +2,10 @@
 
 @section('title', $problem->title)
 
+@section('styles')
+<link href="https://cdn.datatables.net/v/dt/dt-2.0.3/datatables.min.css" rel="stylesheet">
+@endsection('styles')
+
 @section('content')
     <div class="container m-2">
         <nav>
@@ -37,7 +41,7 @@
                     @endif
                     <div class="my-3">
                         <select name="problem_id" class="form-select mb-3">
-                            @foreach($problem_choices as $pc)
+                            @foreach($problems as $pc)
                                 <option value="{{$pc->id}}" {{$pc->id==$problem->id ? 'selected' : ''}}>{{$pc->title}}</option>
                             @endforeach
                         </select>
@@ -47,25 +51,57 @@
                 </form>
             </div>
             <div class="tab-pane fade" id="nav-submissions" role="tabpanel" aria-labelledby="nav-contact-tab">
-                <table class="table">
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Solution</th>
-                        <th scope="col">Correct</th>
-                    </tr>
-                    @foreach($submissions as $submission)
-                        <tr @class([
-                                'table-success' => $submission->correct,
-                                'table-danger' => ! $submission->correct
-                            ])>
-                            <td>{{$submission->id}}</td>
-                            <td>{{$submission->title}}</td>
-                            <td>{{$submission->score}}</td>
+                <table class="table" id="submissions" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th scope="col" class="text-start">ID</th>
+                            <th scope="col">Title</th>
+                            <th scope="col" class="text-start">Correct</th>
+                            <th scope="col" class="text-start">Score</th>
                         </tr>
-                    @endforeach
+                    </thead>
+                    
                 </table>
             </div>
         </div>
     </div>
-    
 @endsection('content')
+
+@section('scripts')
+    <script src="https://cdn.datatables.net/v/dt/dt-2.0.3/datatables.min.js"></script>
+    <script>
+        function loadSubmissions() {
+            $('#submissions').DataTable({
+                dom: "rtp",
+                data: {{Illuminate\Support\Js::from($submissions);}},
+                columns: [
+                    {data: 'id'},
+                    {data: 'title'},
+                    {data: 'correct'},
+                    {data: 'score'},
+                ],
+                columnDefs: [
+                    {
+                        targets: [0,1,3],
+                        className: 'dt-body-left'
+                    },
+                    {
+                        target: 2,
+                        visible: false,
+                    }
+                ],
+                createdRow: function(row, data, dataIndex) {
+                    console.log(data);
+                    if (data[2]) {
+                        $(row).addClass('table-success');
+                    } else {
+                        $(row).addClass('table-danger');
+                    }
+                }
+            });
+        }
+
+        loadSubmissions();
+    </script>
+@endsection('scripts')
+

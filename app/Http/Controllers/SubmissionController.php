@@ -11,7 +11,18 @@ class SubmissionController extends Controller
 {
     //
     public function index(){
-        return view('teams.submission');
+        $submissions = Submissions::join('users', 'users.id', '=', 'submissions.user_id')
+            ->join('problems', 'problems.id', '=', 'submissions.problem_id')
+            ->orderBy('submissions.created_at', 'desc')
+            ->select(
+                'submissions.id',
+                'problems.title',
+                'users.team_name',
+                'submissions.correct',
+                'submissions.score',
+            )
+            ->get();
+        return view('teams.submission', ['submissions' => $submissions]);
     }
 
     public function submitAnswer(Request $request){

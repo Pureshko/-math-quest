@@ -23,20 +23,24 @@ class LoginController extends Controller
         ]);
         // check if user is authenticated
         if(Auth::attempt($credentials)){
+            $contest_end = Settings::where('key', 'contest_end')->first()->value;
+            $user = Auth::user();
             $request->session()->regenerate();
-
+            session(['team_name' => $user->team_name]);
+            session(['contest_end' => $contest_end]);
             return redirect()->route('main-page');
         }
         return back()->with('error', 'Invalid login credentials');
     }
     public function logout(){
         Auth::logout();
+        session()->forget("team_name");
         return redirect()->route('login.page');
     }
     public function indexRegister(){
         $registration_end = Settings::where('key', 'registration_end')->first();
         if($registration_end && strtotime($registration_end->value) < time()){
-            abort(404, 'Registration has ended');
+            return view('errors.404', ['message' => 'Registration has ended']);
         }
         return view('layout.register');
     }

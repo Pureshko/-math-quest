@@ -29,12 +29,12 @@ Route::middleware("auth")->group(function(){
     Route::get("/", function(){
         return view('main-page')->with('page', 'main-page');
     })->name("main-page");
-    Route::get("/problemset", [ProblemSetController::class, 'index'])->name("problemset");
+    Route::get("/problemset", [ProblemSetController::class, 'index'])->name("problemset")->middleware("contest.end");
     Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('leaderboard');
     Route::prefix('problem')->group(function(){
         Route::get("/{id}", [ProblemSetController::class, 'problem'])->name("problem");
         Route::post("/submit", [SubmissionController::class, 'submitAnswer'])->name("problem.submit");
-    });
+    })->middleware("contest.end");
     Route::prefix("/submissions")->group(function(){
         Route::get('/',[SubmissionController::class, 'index'])->name('submissions');
     });
