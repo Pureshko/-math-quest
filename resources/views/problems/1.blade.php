@@ -91,13 +91,13 @@
                     }
                 ],
                 createdRow: function(row, data, dataIndex) {
-                    console.log(data);
-                    if (data[2]) {
+                    if (data.correct) {
                         $(row).addClass('table-success');
                     } else {
                         $(row).addClass('table-danger');
                     }
-                }
+                },
+                order: [[0, 'desc']],
             });
         }
 

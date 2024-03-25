@@ -15,7 +15,7 @@
             </tr>
             <tr>
                 <th scope="col">Name</th>
-                <th scope="col">Score</th>
+                <th scope="col" class="text-start">Score</th>
             </tr>
         </thead>
     </table>
@@ -27,7 +27,7 @@
             <tr>
                 <th scope="col">Name</th>
                 <th scope="col">University</th>
-                <th scope="col">Score</th>
+                <th scope="col" class="text-start">Score</th>
             </tr>
         </thead>
         
@@ -47,7 +47,7 @@
             <tr>
                 <th scope="col">Name</th>
                 <th scope="col">University</th>
-                <th scope="col">Score</th>
+                <th scope="col" class="text-start">Score</th>
             </tr>
         </thead>
         
@@ -73,6 +73,7 @@
                         className: 'dt-body-left'
                     },
                 ],
+                order: [[1, 'desc']],
             });
             $('#non_nu_teams_table').DataTable({
                 dom: "rtp",
@@ -88,6 +89,7 @@
                         className: 'dt-body-left'
                     },
                 ],
+                order: [[2, 'desc']],
             });
             $('#general_teams_table').DataTable({
                 dom: "rtp",
@@ -103,6 +105,7 @@
                         className: 'dt-body-left'
                     },
                 ],
+                order: [[2, 'desc']],
             });
         }
 

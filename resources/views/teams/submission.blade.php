@@ -27,6 +27,7 @@
                 dom: "rtp",
                 data: {{Illuminate\Support\Js::from($submissions);}},
                 columns: [
+                    {data: 'id'},
                     {data: 'team_name'},
                     {data: 'title'},
                     {data: 'correct'},
@@ -34,22 +35,23 @@
                 ],
                 columnDefs: [
                     {
-                        targets: [0,1,3],
+                        targets: [1,2,4],
                         className: 'dt-body-left'
                     },
                     {
-                        target: 2,
+                        targets: [3,0],
                         visible: false,
-                    }
+                    },
                 ],
                 createdRow: function(row, data, dataIndex) {
                     console.log(data);
-                    if (data[2]) {
+                    if (data.correct) {
                         $(row).addClass('table-success');
                     } else {
                         $(row).addClass('table-danger');
                     }
-                }
+                },
+                order: [[0, 'desc']],
             });
         }
 
