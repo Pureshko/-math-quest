@@ -40,7 +40,7 @@ class LoginController extends Controller
     public function indexRegister(){
         $registration_end = Settings::where('key', 'registration_end')->first();
         if($registration_end && strtotime($registration_end->value) < time()){
-            return view('errors.404', ['message' => 'Registration has ended']);
+            return view('layout.404', ['message' => 'Registration has ended']);
         }
         return view('layout.register');
     }

@@ -1,2 +1,2 @@
 <h1>Error 404</h1>
-<p>{{$message}}</p>
+<p>Page not found</p>
