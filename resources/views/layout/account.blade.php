@@ -40,7 +40,7 @@
                     <!-- Sidebar Menu -->
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
-                            <li class="nav-item disabled">
+                            <li class="nav-item disabled elevation-4">
                                 <h3 style="color:white">
                                     {{session('team_name')}}
                                 </h3>
