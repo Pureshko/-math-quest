@@ -6,17 +6,22 @@
     </head>
     <body style="height:100%;background-color: #f2f2f2;">
         <div class="container mt-5 d-flex align-items-center justify-content-center">
-            @if($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach($errors->all() as $error)
-                            <li>{{$error}}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
             <form action="/register" method="POST" class="border rounded border-dark p-3" style="width:450px;background-color: #ffffff">
                 @csrf
+                @if($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach($errors->all() as $error)
+                                <li>{{$error}}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger" role="alert">
+                        {{ session('error') }}
+                    </div>
+                @endif
                 <div class="mb-3 form-group">
                     <label for="exampleInputEmail1" class="form-label">Team Name</label>
                     <input type="text" name="team_name" class="form-control" aria-describedby="emailHelp">

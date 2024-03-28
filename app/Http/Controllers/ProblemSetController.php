@@ -46,6 +46,9 @@ class ProblemSetController extends Controller
     }
     public function problem(Request $request, $id){
         $problem = Problems::find($id);
+        if(!$problem){
+            return view('problems.404');
+        }
         $submissions = Submissions::where('problem_id', $id)
             ->where('user_id', Auth::id())
             ->join('problems', 'problems.id', '=', 'submissions.problem_id')

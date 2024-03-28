@@ -37,5 +37,6 @@ Route::middleware("auth")->group(function(){
     })->middleware("contest.end");
     Route::prefix("/submissions")->group(function(){
         Route::get('/',[SubmissionController::class, 'index'])->name('submissions');
+        Route::get('/{id}', [SubmissionController::class, 'showAnswer'])->name('submission');
     });
 });

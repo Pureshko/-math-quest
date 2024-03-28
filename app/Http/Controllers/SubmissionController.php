@@ -25,6 +25,14 @@ class SubmissionController extends Controller
         return view('teams.submission', ['submissions' => $submissions]);
     }
 
+    public function showAnswer($id){
+        $submission = Submissions::find($id);
+        if(!$submission){
+            return view('teams.404');
+        }
+        return view('teams.show-answer', ['submission' => $submission]);
+    }
+
     public function submitAnswer(Request $request){
         $request->validate([
             "problem_id" => "required|exists:problems,id",
